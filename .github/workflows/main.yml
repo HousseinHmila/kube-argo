@@ -47,4 +47,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: housseinhmila/images:app-${{ github.run_number }}
+          tags: housseinhmila/kube-argo:app-${{ github.run_number }}
