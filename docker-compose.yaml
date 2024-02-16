@@ -1,0 +1,11 @@
+version: "3.9"
+services: 
+  python:
+    image: housseinhmila/tr:v1.0.0    
+    build:
+      context: .
+    restart: always
+    deploy:     
+      replicas: 1
+    ports: 
+      - "8080:5000"
