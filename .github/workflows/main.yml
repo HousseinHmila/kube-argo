@@ -48,3 +48,28 @@ jobs:
           context: .
           push: true
           tags: housseinhmila/kube-argo:app-${{ github.run_number }}
+  update-config:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: changing the deployment of git repo
+        with:
+          repository: 'HousseinHmila/kube-config'
+          token: ${{ secrets.GIT_PASSWORD }}
+      - name: modify the image
+        run: |
+          git config user.email housseinhmila@gmail.com
+          git config user.name Houssein
+          pwd
+          cat deploy.yaml
+          pwd
+          sed -i "s+housseinhmila/kube-argo.*+housseinhmila/kube-argo:app-$RUN_NUMBER+g" deploy.yaml
+          cat deploy.yaml
+          git add .
+          git commit -m 'Done  by Github Actions   Job changemanifest: ${{ github.run_number }}'
+          git push origin main
+        env:
+          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+          GIT_PASSWORD: ${{ secrets.GIT_PASSWORD }}
+          RUN_NUMBER: ${{ github.run_number }}
